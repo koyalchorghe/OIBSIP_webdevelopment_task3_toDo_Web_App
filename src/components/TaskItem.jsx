@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckCircle, faEdit, faSave, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle, faEdit, faSave, faTrash, faCode } from '@fortawesome/free-solid-svg-icons';
 
-const TaskItem = ({ task, updateTask, deleteTask, className }) => {
+const TaskItem = ({ task, updateTask, deleteTask, permanentlyDeleteTask, setActiveTab, activeTab, className }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState(task.name);
   const [editDescription, setEditDescription] = useState(task.description);
-  const [editAssignee, setEditAssignee] = useState(task.assignee || '');
+  const [editAssignee, setEditAssignee] = useState(task.assignee || 'Alice'); // Default to 'Alice'
   const [editAssignTo, setEditAssignTo] = useState(task.assignTo || '');
-  const [deadlineDate, setDeadlineDate] = useState(new Date(task.deadline || Date.now()));
+  const [editPriority, setEditPriority] = useState(task.priority || 'medium');
+  const [editCategory, setEditCategory] = useState(task.category || 'general');
+  const [deadlineDate, setDeadlineDate] = useState(task.deadline ? new Date(task.deadline) : new Date()); // Default to task.deadline or today's date
   const [assignees] = useState(['Alice', 'Bob', 'Charlie']);
 
   const handleComplete = () => {
-    updateTask({ ...task, completed: true, completedAt: new Date().toISOString()});
+    updateTask({ ...task, completed: true, completedAt: new Date().toISOString() });
   };
 
   const handleSave = () => {
@@ -23,8 +25,29 @@ const TaskItem = ({ task, updateTask, deleteTask, className }) => {
       assignee: editAssignee,
       assignTo: editAssignTo,
       deadline: deadlineDate,
+      priority: editPriority,
+      category: editCategory,
     });
     setIsEditing(false);
+  };
+
+  const handleViewDevelopment = () => {
+    updateTask({
+      ...task,
+      category: 'development',
+      completed: false,
+      completedAt: null,
+    });
+  };
+
+  const handleDelete = () => {
+    if (activeTab === 'deleted') {
+      if (window.confirm('Are you sure you want to permanently delete this task?')) {
+        permanentlyDeleteTask(task.id);
+      }
+    } else {
+      deleteTask(task.id);
+    }
   };
 
   return (
@@ -55,13 +78,13 @@ const TaskItem = ({ task, updateTask, deleteTask, className }) => {
         {isEditing ? (
           <input
             type="date"
-            value={deadlineDate.toISOString().split('T')[0]}
-            onChange={(e) => setDeadlineDate(new Date(e.target.value))}
+            value={deadlineDate ? deadlineDate.toISOString().split('T')[0] : ''}
+            onChange={(e) => setDeadlineDate(e.target.value ? new Date(e.target.value) : new Date())}
             className="p-2 border rounded-lg w-full focus:ring-2 focus:ring-blue-300"
           />
         ) : (
           <span className="text-gray-600">
-            {task.deadline ? new Date(task.deadline).toLocaleDateString() : 'No deadline'}
+            {task.deadline ? new Date(task.deadline).toLocaleDateString() : new Date().toLocaleDateString()}
           </span>
         )}
       </td>
@@ -72,7 +95,6 @@ const TaskItem = ({ task, updateTask, deleteTask, className }) => {
             onChange={(e) => setEditAssignee(e.target.value)}
             className="p-2 border rounded-lg w-full focus:ring-2 focus:ring-blue-300"
           >
-            <option value="">Select Assignee</option>
             {assignees.map((person) => (
               <option key={person} value={person}>
                 {person}
@@ -80,7 +102,7 @@ const TaskItem = ({ task, updateTask, deleteTask, className }) => {
             ))}
           </select>
         ) : (
-          <span className="text-gray-600">{task.assignee || 'Unassigned'}</span>
+          <span className="text-gray-600">{task.assignee || 'Alice'}</span>
         )}
       </td>
       <td className="w-1/6 px-6 py-3">
@@ -98,6 +120,46 @@ const TaskItem = ({ task, updateTask, deleteTask, className }) => {
       </td>
       <td className="w-1/6 px-6 py-3 text-sm text-gray-600">
         {new Date(task.createdAt).toLocaleDateString()}
+      </td>
+      <td className="w-1/12 px-6 py-3">
+        {isEditing ? (
+          <select
+            value={editCategory}
+            onChange={(e) => setEditCategory(e.target.value)}
+            className="p-2 border rounded-lg w-full focus:ring-2 focus:ring-blue-300"
+          >
+            <option value="general">General</option>
+            <option value="development">Development</option>
+            <option value="design">Design</option>
+            <option value="testing">Testing</option>
+            <option value="review">Review</option>
+          </select>
+        ) : (
+          <span className="text-gray-600">{task.category.charAt(0).toUpperCase() + task.category.slice(1)}</span>
+        )}
+      </td>
+      <td className="w-1/12 px-6 py-3">
+        {isEditing ? (
+          <select
+            value={editPriority}
+            onChange={(e) => setEditPriority(e.target.value)}
+            className="p-2 border rounded-lg w-full focus:ring-2 focus:ring-blue-300"
+          >
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
+          </select>
+        ) : (
+          <span
+            className={`px-2 py-1 rounded-full text-sm ${
+              task.priority === 'high' ? 'bg-red-100 text-red-800' :
+              task.priority === 'medium' ? 'bg-yellow-100 text-yellow-800' :
+              'bg-green-100 text-green-800'
+            }`}
+          >
+            {task.priority ? task.priority.charAt(0).toUpperCase() + task.priority.slice(1) : 'Medium'}
+          </span>
+        )}
       </td>
       <td className="w-1/12 px-6 py-3">
         <span
@@ -137,12 +199,21 @@ const TaskItem = ({ task, updateTask, deleteTask, className }) => {
             </button>
           )}
           <button
-            onClick={() => deleteTask(task.id)}
+            onClick={handleDelete}
             className="text-red-600 hover:text-red-800 transition-colors"
-            title="Delete Task"
+            title={activeTab === 'deleted' ? 'Permanently Delete Task' : 'Delete Task'}
           >
             <FontAwesomeIcon icon={faTrash} size="lg" />
           </button>
+          {activeTab !== 'development' && (
+            <button
+              onClick={handleViewDevelopment}
+              className="text-purple-600 hover:text-purple-800 transition-colors"
+              title="Mark as Development Task"
+            >
+              <FontAwesomeIcon icon={faCode} size="lg" />
+            </button>
+          )}
         </div>
       </td>
     </tr>

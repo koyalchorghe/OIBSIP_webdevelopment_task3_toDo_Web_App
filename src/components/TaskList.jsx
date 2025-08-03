@@ -1,7 +1,7 @@
 import React from 'react';
 import TaskItem from './TaskItem';
 
-const TaskList = ({ tasks, updateTask, deleteTask }) => {
+const TaskList = ({ tasks, updateTask, deleteTask, permanentlyDeleteTask, setActiveTab, activeTab }) => {
   return (
     <div className="overflow-x-auto shadow-md rounded-lg bg-gray-100 p-4">
       <table className="min-w-full bg-white border border-gray-200 rounded-lg">
@@ -13,6 +13,8 @@ const TaskList = ({ tasks, updateTask, deleteTask }) => {
             <th className="w-1/6 px-6 py-3 text-left text-xs font-semibold tracking-wide uppercase">Assignee</th>
             <th className="w-1/6 px-6 py-3 text-left text-xs font-semibold tracking-wide uppercase">Assign To</th>
             <th className="w-1/6 px-6 py-3 text-left text-xs font-semibold tracking-wide uppercase">Created At</th>
+            <th className="w-1/12 px-6 py-3 text-left text-xs font-semibold tracking-wide uppercase">Category</th>
+            <th className="w-1/12 px-6 py-3 text-left text-xs font-semibold tracking-wide uppercase">Priority</th>
             <th className="w-1/12 px-6 py-3 text-left text-xs font-semibold tracking-wide uppercase">Status</th>
             <th className="w-1/12 px-6 py-3 text-left text-xs font-semibold tracking-wide uppercase">Actions</th>
           </tr>
@@ -24,6 +26,9 @@ const TaskList = ({ tasks, updateTask, deleteTask }) => {
               task={task}
               updateTask={updateTask}
               deleteTask={deleteTask}
+              permanentlyDeleteTask={permanentlyDeleteTask}
+              setActiveTab={setActiveTab}
+              activeTab={activeTab}
               className={`transition-all duration-200 ${
                 index % 2 === 0 ? 'bg-gray-50 hover:bg-gray-100' : 'bg-white hover:bg-gray-100'
               }`}

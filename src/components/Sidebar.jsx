@@ -24,13 +24,13 @@ const Sidebar = ({ projects, selectedProjectId, setSelectedProjectId, addProject
     <div className="w-64 bg-white border-r shadow-sm p-4 flex flex-col">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-bold">Projects</h2>
-        <button
+        {/* <button
           onClick={handleDevelopmentClick}
           className="text-purple-600 hover:text-purple-800 transition-colors"
           title="Development Tasks"
         >
           <FontAwesomeIcon icon={faCode} size="lg" />
-        </button>
+        </button> */}
       </div>
       <ul className="flex-1 overflow-y-auto">
         {projects.map((project) => (

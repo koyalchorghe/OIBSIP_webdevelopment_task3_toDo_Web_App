@@ -1,70 +1,148 @@
-# Getting Started with Create React App
+# 📝 TailwindCSS To-Do App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 📌 Objective
+The goal of this project is to create a **basic, responsive, and user-friendly To-Do web application** using **TailwindCSS** for styling.  
+The app allows users to add daily tasks, mark them as completed, edit them, or delete them — with tasks organized into **Pending Tasks** and **Completed Tasks** sections etc.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🚀 Features
+- ➕ **Add New Tasks** with date & time stamp
+- ✅ **Mark Tasks as Complete** (moves them to the Completed Tasks list)
+- 🔄 **Unmark Tasks** (moves them back to Pending Tasks)
+- ✏ **Edit Tasks** with updated timestamp
+- ❌ **Delete Tasks**
+-   **Design Task**
 
-### `npm start`
+- 📂 **Separate Sections** for Pending and Completed tasks
+- 🎨 **Fully styled** using TailwindCSS
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🛠 Tools, Technologies & Software Used
+- **HTML5** – Structure of the app
+- **JavaScript (Vanilla JS)** – Dynamic task management
+- **TailwindCSS** – Modern utility-first CSS framework for styling
+- **Node.js** – For package management and local development server
+- **VS Code** – Code editor used for development
+- **Google Chrome / Firefox** – For testing and running the application
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 📋 Steps Performed
+1. **Setup Project**
+   - Created project folder and initialized Node.js:
+     ```bash
+     npm init -y (to create a package.json file)
+     npm create-react-app todo-app
+     cd todo-app
+     npm start
+     ```
+ # First Method
+  - Installed TailwindCSS via npm:
+     ```bash
+     npm install -D tailwindcss postcss autoprefixer
+     npx tailwindcss init -p
 
-### `npm run build`
+     ```
+   - Configured `tailwind.config.js`:
+     ```javascript
+     module.exports = {
+       content: ["./*.html", "./src/**/*.{js,ts}"],
+       theme: { extend: {} },
+       plugins: [],
+     }
+     ```
+   - Created `input.css` file with:
+     ```css
+     @tailwind base;
+     @tailwind components;
+     @tailwind utilities;
+     ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+   - Built TailwindCSS:
+     ```bash
+     npx tailwindcss -i ./input.css -o ./output.css --watch
+     ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    (Note)
+  ## Second Method 
+   - If the TailwindCss is not installing correctly or show the error like below 
+   - When i was trying to install the TailwindCSS I have got the below error so many times
+      #  npx tailwindcss init -p
+      # 'tailwind' is not recognized as an internal or external command, operable program or batch file'.
+   - if you get the same error run the following command.
+      # npm i-D tailwindcss@3 postcss autoprefixer
+      # npx tailwindcss init -p
+   - it should work.
+   - its happing beacuse
+    according to me, my system is not supporting the new version of the tailwindcss so you can install the previous version of the TailWindCss that should be work correctly its version as @3.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 📂 Folder Structure
+oasisinfobyteTasks/
+│
+├── ToDoWebApp/
+│   └── todo-app/
+│       ├── package.json
+│       ├── tailwind.config.js
+│       ├── postcss.config.js
+        ├── input.css           # Tailwind source file
+        ├── output.css          # Generated Tailwind file (auto-generated)
+        ├── index.html          # Main HTML file
+        │
+        ├── src/
+        │   ├── app.js          # JavaScript logic for To-Do app
+        │   └── utils.js        # Optional helper functions
+        │
+        └── assets/
+            ├── images/         # Store any images/icons
+            └── css/            # Extra custom CSS 
 
-### `npm run eject`
+2. **Build UI Structure**
+   - Header section with app title.
+   - Input box and button for adding tasks.
+   - Separate lists for Pending and Completed tasks.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+3. **Implement Task Logic (JavaScript)**
+   - Created functions to:
+     - Add a task
+     - Mark as complete / unmark
+     - Edit a task
+     - Delete a task
+     - Design Task
+     - Development Task
+     - Testing Task
+     - Review Task
+     - Render tasks dynamically in respective lists
+   - Added timestamps for task creation & updates.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+4. **Styling with TailwindCSS**
+   - Used Tailwind utility classes for spacing, colors, borders, and hover effects.
+   - Designed a responsive and clean layout.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+  5.  
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 📦 How to Run the Project
+1. **Clone the repository** or download the project files.
+2. Open terminal in the project directory.
+3. Install dependencies:
+   ```bash
+   npm install
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+# To Test The Login Page follw the below steps
+ - start the project 
+ - Here create a new project 
+ - Add the tasks into this
+ 1. you can add the task taskName,Description,deadline of task,whome to assgin the task,who is assgin the task,which type of task
+ 2. you can create a task like desgin task,testing task,review task and ect.
+ 3. you can also add the Priority of the task
+ 
+ - The you can see the added tasks into the relatable task tabs
+ - You can Edit, Delete, Add the task into development ,then you can add into the completed task ,you can also delete the task
+ - I am storing the all data locally
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+######  This is the Proje t I develop in simple Way.
